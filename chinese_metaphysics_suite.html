@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>อี้จิง (ลิ่วเหยา) &amp; ดาวเหินฮวงจุ้ย 9 ยุค</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f5f4;
+    --surface: #ffffff;
+    --surface-soft: #fafaf9;
+    --border: #d6d3d1;
+    --border-strong: #78716c;
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+    --accent: #b45309;
+    --input-bg: #fffbeb;
+    --input-border: #f59e0b;
+    --red-line: #c00000;
+    --dark-line: #1e3a8a;
+    --shi-bg: #fee2e2;
+    --shi-text: #991b1b;
+    --ying-bg: #e0f2fe;
+    --ying-text: #075985;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 12px 10px 32px;
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: 'Sarabun', 'Noto Sans SC', sans-serif;
+    line-height: 1.4;
+  }
+
+  /* Top Mode Switcher Bar */
+  .mode-nav {
+    max-width: 980px;
+    margin: 0 auto 12px;
+    display: flex;
+    gap: 8px;
+    background: #e7e5e4;
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .mode-btn {
+    flex: 1;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .mode-btn:hover {
+    background: rgba(255, 255, 255, 0.55);
+    color: var(--text-main);
+  }
+
+  .mode-btn.active {
+    background: #ffffff;
+    color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .app-section {
+    display: none;
+  }
+
+  .app-section.active {
+    display: block;
+  }
+
+  .app-container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    padding: 16px 18px 22px;
+  }
+
+  /* Header */
+  .header-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 2px solid var(--text-main);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+
+  .header-bar h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-main);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn:hover {
+    background: #f5f5f4;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #92400e;
+  }
+
+  /* =========================================================
+     I CHING (LIUYAO) STYLES
+     ========================================================= */
+  .topic-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    background: var(--surface-soft);
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .topic-box label {
+    font-weight: 700;
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+
+  .topic-box input {
+    flex: 1;
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    color: var(--text-main);
+  }
+
+  .topic-box input:focus {
+    outline: none;
+    border-color: var(--input-border);
+  }
+
+  .top-panel {
+    display: grid;
+    grid-template-columns: 310px 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .card {
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    background: #fff;
+    padding: 9px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+  }
+
+  .cast-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  .cast-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .cast-field.full-span {
+    grid-column: span 2;
+  }
+
+  .cast-field label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-main);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cast-field label span.hint {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 0.76rem;
+  }
+
+  .input-select {
+    appearance: none;
+    background-color: var(--input-bg);
+    border: 1.5px solid var(--input-border);
+    border-radius: 6px;
+    padding: 5px 22px 5px 8px;
+    font-family: inherit;
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: var(--text-main);
+    cursor: pointer;
+    text-align: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%23b45309' d='M6 8.8L1.2 4h9.6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 7px center;
+  }
+
+  .input-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+  }
+
+  .right-info-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .date-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 7px;
+    padding: 9px 14px;
+    background: #fafaf9;
+  }
+
+  .date-bar-label {
+    font-weight: 700;
+    font-size: 1.12rem;
+    color: var(--text-main);
+  }
+
+  .date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .date-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .date-group span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.4px;
+  }
+
+  .date-group select {
+    min-width: 86px;
+    padding: 6px 24px 6px 10px;
+    font-size: 1.08rem;
+  }
+
+  .chinese-date-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .cd-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .cd-item:last-child {
+    border-bottom: none;
+    padding: 5px 12px;
+    background: #fffbeb;
+  }
+
+  .cd-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: #f5f5f4;
+    padding: 1px 8px;
+    border-radius: 4px;
+  }
+
+  .cd-item:last-child .cd-label {
+    font-size: 0.84rem;
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .cd-val {
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-main);
+  }
+
+  .cd-kong {
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    color: #b45309;
+  }
+
+  .gua-summary-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1.25fr 0.9fr 0.8fr;
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    overflow: hidden;
+    text-align: center;
+    background: #fff;
+  }
+
+  .gs-head {
+    background: #f5f5f4;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 4px 6px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .gs-head:last-child {
+    border-right: none;
+  }
+
+  .gs-val {
+    padding: 5px 6px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .gs-val:last-child {
+    border-right: none;
+  }
+
+  .gua-cn {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+
+  .gua-th {
+    font-size: 0.94rem;
+    font-weight: 700;
+  }
+
+  .gua-note {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #dc2626;
+    margin-top: 1px;
+  }
+
+  .gua-palace, .gua-el {
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .hex-table-wrap {
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    overflow-x: auto;
+    background: #fff;
+  }
+
+  table.hex-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+  }
+
+  table.hex-table th {
+    background: #e7e5e4;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 6px 4px;
+    border-bottom: 1px solid var(--border-strong);
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  table.hex-table th:last-child {
+    border-right: none;
+  }
+
+  table.hex-table td {
+    padding: 5px 4px;
+    border-bottom: 1px solid #e7e5e4;
+    border-right: 1px solid #f5f5f4;
+    vertical-align: middle;
+  }
+
+  table.hex-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .col-hidden {
+    width: 66px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--red-line);
+    white-space: nowrap;
+  }
+
+  .col-pos {
+    width: 30px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .col-rel {
+    width: 58px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .col-branch {
+    width: 38px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .col-el {
+    width: 34px;
+    font-size: 0.92rem;
+  }
+
+  .col-yao {
+    width: 120px;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .col-shiying {
+    width: 38px;
+  }
+
+  .badge-sy {
+    display: inline-block;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .badge-shi {
+    background: var(--shi-bg);
+    color: var(--shi-text);
+  }
+
+  .badge-ying {
+    background: var(--ying-bg);
+    color: var(--ying-text);
+  }
+
+  .col-beast {
+    width: 125px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    border-right: none !important;
+  }
+
+  .yao-graphic {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 11px;
+    width: 100%;
+  }
+
+  .yao-yang {
+    width: 100%;
+    height: 9px;
+    border-radius: 1.5px;
+  }
+
+  .yao-yin-part {
+    width: 43%;
+    height: 9px;
+    border-radius: 1.5px;
+  }
+
+  .yao-dark {
+    background-color: var(--dark-line);
+  }
+
+  .yao-red {
+    background-color: var(--red-line);
+  }
+
+  .el-earth { color: #854d0e !important; font-weight: 700; }
+  .el-water { color: #0284c7 !important; font-weight: 700; }
+  .el-fire  { color: #dc2626 !important; font-weight: 700; }
+  .el-wood  { color: #15803d !important; font-weight: 700; }
+  .el-metal { color: #1c1917 !important; font-weight: 700; }
+
+  .notes-box {
+    margin-top: 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    padding: 9px 12px;
+    background: var(--surface-soft);
+  }
+
+  .notes-box label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+
+  .notes-box textarea {
+    width: 100%;
+    min-height: 58px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    background: #fff;
+    color: var(--text-main);
+  }
+
+  .notes-box textarea:focus {
+    outline: none;
+    border-color: var(--input-border);
+  }
+
+  /* =========================================================
+     XUAN KONG FLYING STAR (ดาวเหิน 9 ยุค) STYLES
+     ========================================================= */
+  .fs-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .fs-left-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .fs-section-card {
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 12px 14px;
+    background: #fff;
+  }
+
+  .fs-sec-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+
+  .fs-sec-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .fs-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 9px;
+  }
+
+  .fs-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .fs-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+
+  .fs-input-num {
+    width: 110px;
+    padding: 6px 10px;
+    border: 1.5px solid var(--input-border);
+    border-radius: 6px;
+    background: var(--input-bg);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text-main);
+  }
+
+  .fs-input-num:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+  }
+
+  .fs-slider {
+    width: 100%;
+    margin: 4px 0 8px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .fs-status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+
+  .fs-status-ok {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+  }
+
+  .fs-status-fire {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+  }
+
+  /* Dragon Color Styles */
+  .dragon-box {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dragon-sky {
+    background: #f0f9ff;
+    color: #0284c7;
+    border: 1.5px solid #38bdf8;
+  }
+
+  .dragon-human {
+    background: #ffffff;
+    color: #1c1917;
+    border: 1.5px solid #cbd5e1;
+  }
+
+  .dragon-earth {
+    background: #fff7ed;
+    color: #ea580c;
+    border: 1.5px solid #fb923c;
+  }
+
+  /* 3x3 Lo Shu Flying Star Grid */
+  .fs-chart-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .fs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    width: 100%;
+    max-width: 440px;
+  }
+
+  .fs-cell {
+    border: 1.5px solid var(--border-strong);
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 8px 8px 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 118px;
+    position: relative;
+  }
+
+  .fs-cell.is-sitting {
+    background: #fef2f2;
+    border-color: #dc2626;
+    border-width: 2px;
+  }
+
+  .fs-cell.is-facing {
+    background: #eff6ff;
+    border-color: #2563eb;
+    border-width: 2px;
+  }
+
+  .fs-stars-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 4px;
+  }
+
+  .fs-star-num {
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.1;
+    padding: 2px 7px;
+    border-radius: 5px;
+  }
+
+  .star-water {
+    color: #0369a1;
+  }
+
+  .star-mountain {
+    color: #b45309;
+  }
+
+  .star-auspicious {
+    border: 1.5px solid #eab308;
+    background: #fefce8;
+  }
+
+  .fs-star-base {
+    text-align: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #44403c;
+    margin: 2px 0;
+  }
+
+  .fs-role-tag {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin: 0 auto 2px;
+  }
+
+  .role-sitting {
+    background: #dc2626;
+    color: #fff;
+  }
+
+  .role-facing {
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .fs-dir-footer {
+    border-top: 1px solid #e7e5e4;
+    padding-top: 3px;
+    text-align: center;
+    font-size: 0.72rem;
+    line-height: 1.25;
+    color: var(--text-muted);
+  }
+
+  .fs-dir-code {
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  .fs-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* Section 4: 9 Stars Reference Cards */
+  .stars-ref-section {
+    margin-top: 16px;
+    border-top: 1.5px solid var(--border);
+    padding-top: 14px;
+  }
+
+  .stars-ref-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .star-ref-card {
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 8px 10px;
+    background: var(--surface-soft);
+    font-size: 0.82rem;
+  }
+
+  .star-ref-card.good-p9 {
+    border-color: #eab308;
+    background: #fefce8;
+  }
+
+  .star-ref-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 3px;
+    font-size: 0.88rem;
+  }
+
+  .star-badge-p9 {
+    font-size: 0.72rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .badge-good {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .badge-bad {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  @media (max-width: 780px) {
+    .top-panel, .fs-layout {
+      grid-template-columns: 1fr;
+    }
+    .stars-ref-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media print {
+    body {
+      background: #fff;
+      padding: 0;
+    }
+    .mode-nav, .header-actions, .fs-slider {
+      display: none !important;
+    }
+    .app-container {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+    }
+    .input-select, .fs-input-num {
+      border: 1px solid #999;
+      background: #fff;
+    }
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- แถบเลือกใช้งานระบบ อี้จิง หรือ เหินดาว -->
+<nav class="mode-nav" aria-label="เลือกเครื่องมือพยากรณ์">
+  <button type="button" class="mode-btn active" id="btnModeIch" data-target="secIching">
+    ☯ อี้จิง (ลิ่วเหยา 六爻)
+  </button>
+  <button type="button" class="mode-btn" id="btnModeFs" data-target="secFlyingStar">
+    🧭 เหินดาว (ฮวงจุ้ย 9 ยุค)
+  </button>
+</nav>
+
+<!-- =====================================================================
+     SECTION 1: อี้จิง (ลิ่วเหยา 六爻)
+     ===================================================================== -->
+<section id="secIching" class="app-section active">
+  <div class="app-container">
+    <div class="header-bar">
+      <h1>การทำนาย อี้จิง (ลิ่วเหยา 六爻)</h1>
+      <div class="header-actions">
+        <button type="button" class="btn" id="btnToday">ใช้วันที่ปัจจุบัน</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">พิมพ์ / บันทึก PDF</button>
+      </div>
+    </div>
+
+    <!-- เรื่องที่ทำนาย -->
+    <div class="topic-box">
+      <label for="topicInput">เรื่อง :</label>
+      <input type="text" id="topicInput" placeholder="ระบุเรื่องที่ต้องการทำนาย...">
+    </div>
+
+    <!-- ส่วนกรอกค่า และ วันที่ทำนาย / วันจีน / ชื่อกว้า -->
+    <div class="top-panel">
+      <div class="card">
+        <div class="card-title">เลือกผลเสี่ยงทาย (1 - 8)</div>
+        <div class="cast-grid">
+          <div class="cast-field">
+            <label for="selLower">กว้าล่าง <span class="hint">(ครั้งที่ 1)</span></label>
+            <select id="selLower" class="input-select"></select>
+          </div>
+          <div class="cast-field">
+            <label for="selUpper">กว้าบน <span class="hint">(ครั้งที่ 2)</span></label>
+            <select id="selUpper" class="input-select"></select>
+          </div>
+          <div class="cast-field full-span">
+            <label for="selMoving">เส้นเปลี่ยน <span class="hint">(ครั้งที่ 3)</span></label>
+            <select id="selMoving" class="input-select"></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-info-stack">
+        <div class="date-bar">
+          <div class="date-bar-label">วันที่ทำนาย</div>
+          <div class="date-inputs">
+            <div class="date-group">
+              <span>DATE (วัน)</span>
+              <select id="selDay" class="input-select"></select>
+            </div>
+            <div class="date-group">
+              <span>MONTH (เดือน)</span>
+              <select id="selMonth" class="input-select"></select>
+            </div>
+            <div class="date-group">
+              <span>YEAR (พ.ศ.)</span>
+              <select id="selYear" class="input-select"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="chinese-date-grid">
+          <div class="cd-item">
+            <span class="cd-label">月 เดือน</span>
+            <span class="cd-val" id="outMonthPillar">-</span>
+          </div>
+          <div class="cd-item">
+            <span class="cd-label">日 วัน</span>
+            <span class="cd-val" id="outDayPillar">-</span>
+          </div>
+          <div class="cd-item">
+            <span class="cd-label">空亡 คงหว่าง</span>
+            <span class="cd-val cd-kong" id="outKongWang">-</span>
+          </div>
+        </div>
+
+        <div class="gua-summary-grid">
+          <div class="gs-head">ชื่อ กว้า (จีน)</div>
+          <div class="gs-head">ชื่อ กว้า (ไทย)</div>
+          <div class="gs-head">วัง</div>
+          <div class="gs-head">ธาตุ</div>
+
+          <div class="gs-val">
+            <div class="gua-cn" id="outGuaCn">-</div>
+          </div>
+          <div class="gs-val">
+            <div class="gua-th" id="outGuaTh">-</div>
+            <div class="gua-note" id="outGuaNote"></div>
+          </div>
+          <div class="gs-val">
+            <div class="gua-palace" id="outPalace">-</div>
+          </div>
+          <div class="gs-val">
+            <div class="gua-el" id="outElement">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ผังตาราง 6 เส้น -->
+    <div class="hex-table-wrap">
+      <table class="hex-table">
+        <thead>
+          <tr>
+            <th class="col-hidden">สถานะ</th>
+            <th class="col-pos">เส้น</th>
+            <th class="col-rel">6 ญาติ</th>
+            <th class="col-branch">นักษัตร</th>
+            <th class="col-el">ธาตุ</th>
+            <th class="col-yao">เปลี่ยน (变卦)</th>
+            <th class="col-rel">6 ญาติ</th>
+            <th class="col-branch">นักษัตร</th>
+            <th class="col-el">ธาตุ</th>
+            <th class="col-yao">กว้า (本卦)</th>
+            <th class="col-shiying">世/应</th>
+            <th class="col-beast">6 สัตว์</th>
+          </tr>
+        </thead>
+        <tbody id="hexTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- สรุปคำทำนาย -->
+    <div class="notes-box">
+      <label for="summaryInput">สรุปคำทำนาย :</label>
+      <textarea id="summaryInput" placeholder="บันทึกการวิเคราะห์และคำทำนาย..."></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     SECTION 2: เหินดาว (ฮวงจุ้ย 9 ยุค)
+     ===================================================================== -->
+<section id="secFlyingStar" class="app-section">
+  <div class="app-container">
+    <div class="header-bar">
+      <h1>ผังดาวเหินฮวงจุ้ย 9 ยุค (玄空飞星)</h1>
+      <div class="header-actions">
+        <button type="button" class="btn btn-primary" id="btnFsPdf">บันทึกเป็น PDF</button>
+      </div>
+    </div>
+
+    <div class="fs-layout">
+      <!-- คอลัมน์ซ้าย: หัวข้อ 1 และ หัวข้อ 2 -->
+      <div class="fs-left-col">
+        <!-- หัวข้อ 1 -->
+        <div class="fs-section-card">
+          <div class="fs-sec-header">
+            <span class="fs-sec-num">1</span>
+            <span>ตั้งค่ายุคและองศาหลังพิง</span>
+          </div>
+
+          <div class="fs-row">
+            <label class="fs-label" for="fsPeriod">ยุค (Period 1–9)</label>
+            <select id="fsPeriod" class="input-select" style="width:130px;">
+              <option value="1">ยุคที่ 1</option>
+              <option value="2">ยุคที่ 2</option>
+              <option value="3">ยุคที่ 3</option>
+              <option value="4">ยุคที่ 4</option>
+              <option value="5">ยุคที่ 5</option>
+              <option value="6">ยุคที่ 6</option>
+              <option value="7">ยุคที่ 7</option>
+              <option value="8">ยุคที่ 8</option>
+              <option value="9" selected>ยุคที่ 9 (2567–2586)</option>
+            </select>
+          </div>
+
+          <div class="fs-row">
+            <label class="fs-label" for="fsSittingDeg">หลังพิง 山 (0°–360°)</label>
+            <input type="number" id="fsSittingDeg" class="fs-input-num" value="325" min="0" max="360" step="0.5">
+          </div>
+
+          <div class="fs-row">
+            <label class="fs-label" for="fsFacingDeg">หน้าหัน 向 (0°–360°)</label>
+            <input type="number" id="fsFacingDeg" class="fs-input-num" value="145" min="0" max="360" step="0.5">
+          </div>
+
+          <div class="fs-row">
+            <span class="fs-label">สถานะองศา</span>
+            <span id="fsBoundaryStatus" class="fs-status-badge fs-status-ok">✅ ปกติ</span>
+          </div>
+
+          <div id="fsSittingDragonBox" class="dragon-box dragon-human">
+            <div id="fsDragonTypeLine">ตำแหน่งมังกร (元龙): มังกรคน (人)</div>
+            <div id="fsSittingSummaryLine">หลังพิงทิศตะวันตกเฉียงเหนือ (亥) • มังกรคน (人)</div>
+          </div>
+        </div>
+
+        <!-- หัวข้อ 2 -->
+        <div class="fs-section-card">
+          <div class="fs-sec-header">
+            <span class="fs-sec-num">2</span>
+            <span>ทิศของตำแหน่งถนน</span>
+          </div>
+
+          <div class="fs-row">
+            <label class="fs-label" for="fsRoadDeg">องศาทิศถนน (0°–360°)</label>
+            <input type="number" id="fsRoadDeg" class="fs-input-num" value="145" min="0" max="360" step="0.5">
+          </div>
+
+          <input type="range" id="fsRoadSlider" class="fs-slider" min="0" max="360" step="0.5" value="145">
+
+          <div id="fsRoadDragonBox" class="dragon-box dragon-human">
+            <div id="fsRoadDirLine">ทิศถนน: ตะวันออกเฉียงใต้ (SE) • ขุนเขา 巳</div>
+            <div id="fsRoadDragonLine">มังกรถนน: มังกรคน (人)</div>
+            <div id="fsRoadMatchLine" style="font-size:0.8rem; font-weight:600;">✅ มังกรเดียวกับหลังพิง (บริสุทธิ์)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- คอลัมน์ขวา: หัวข้อ 3 ผังดาวเหิน 9 ยุค -->
+      <div class="fs-section-card">
+        <div class="fs-sec-header">
+          <span class="fs-sec-num">3</span>
+          <span>ผังดาวเหิน 9 ยุค (มาตรฐานหลัวซู)</span>
+        </div>
+
+        <div class="fs-chart-wrap">
+          <div class="fs-grid" id="fsGrid"></div>
+          <div class="fs-legend">
+            <span><strong style="color:#0369a1;">บนซ้าย:</strong> ดาวน้ำ (โชคลาภ)</span>
+            <span><strong style="color:#b45309;">บนขวา:</strong> ดาวภูเขา (บารมี/สุขภาพ)</span>
+            <span><strong style="color:#44403c;">กลาง:</strong> ดาวประจำยุค</span>
+            <span><strong style="color:#ca8a04;">กรอบทอง:</strong> ดาวมงคล (9, 1, 2)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- หัวข้อ 4: ลักษณะและความหมายของดาวทั้ง 9 ดวง -->
+    <div class="stars-ref-section">
+      <div class="fs-sec-header">
+        <span class="fs-sec-num">4</span>
+        <span>ลักษณะและความหมายของดาวทั้ง 9 ดวง (เกณฑ์ยุคที่ 9)</span>
+      </div>
+      <div class="stars-ref-grid" id="fsStarsRefGrid"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  "use strict";
+
+  /* =========================================================
+     MODE SWITCHING
+     ========================================================= */
+  const modeBtns = document.querySelectorAll(".mode-btn");
+  const appSections = document.querySelectorAll(".app-section");
+
+  modeBtns.forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      const targetId = btn.getAttribute("data-target");
+      modeBtns.forEach(function(b) { b.classList.remove("active"); });
+      appSections.forEach(function(s) { s.classList.remove("active"); });
+      btn.classList.add("active");
+      document.getElementById(targetId).classList.add("active");
+    });
+  });
+
+  /* =========================================================
+     PART A: I CHING (LIUYAO) LOGIC
+     ========================================================= */
+  const TRIGRAMS = {
+    1: { code: "111", label: "1 - เฉียน (乾 ☰)" },
+    2: { code: "011", label: "2 - ตุ้ย (兑 ☱)" },
+    3: { code: "101", label: "3 - หลี (离 ☲)" },
+    4: { code: "001", label: "4 - เจิ้น (震 ☳)" },
+    5: { code: "110", label: "5 - ซวิ่น (巽 ☴)" },
+    6: { code: "010", label: "6 - ข่าน (坎 ☵)" },
+    7: { code: "100", label: "7 - เกิ่น (艮 ☶)" },
+    8: { code: "000", label: "8 - คุน (坤 ☷)" }
+  };
+
+  const HEXAGRAMS = {"111111":{"cn":"乾 为 天","th":"เฉียนเหวยเทียน","palace":"เฉียน (乾)","el":"金 (ทอง)","note":"กว้า 6 ชง","shi":6,"ying":3,"main":[["子","水"],["寅","木"],["辰","金"],["午","火"],["申","金"],["戌","土"]],"chg":[["丑","土"],["丑","土"],["丑","土"],["未","土"],["未","土"],["未","土"]]},"111110":{"cn":"天 风 姤","th":"เทียนเฟิงโก้ว","palace":"เฉียน (乾)","el":"金 (ทอง)","note":"","shi":1,"ying":4,"main":[["丑","土"],["亥","水"],["酉","金"],["午","火"],["申","金"],["戌","土"]],"chg":[["子","水"],["午","火"],["午","火"],["未","土"],["未","土"],["未","土"]]},"111100":{"cn":"天 山 遁","th":"เทียนซานตุ้น","palace":"เฉียน (乾)","el":"金 (ทอง)","note":"","shi":2,"ying":5,"main":[["辰","土"],["午","火"],["申","金"],["午","火"],["申","金"],["戌","土"]],"chg":[["卯","木"],["亥","水"],["卯","木"],["未","土"],["未","土"],["未","土"]]},"111000":{"cn":"天 地 否","th":"เทียนตี้ผี่","palace":"เฉียน (乾)","el":"金 (ทอง)","note":"กว้า 6 ฮะ","shi":3,"ying":6,"main":[["未","土"],["巳","火"],["卯","木"],["午","火"],["申","金"],["戌","土"]],"chg":[["子","水"],["辰","土"],["申","金"],["未","土"],["未","土"],["未","土"]]},"110000":{"cn":"风 地 观","th":"เฟิงตี้กวน","palace":"เฉียน (乾)","el":"金 (ทอง)","note":"","shi":4,"ying":1,"main":[["未","土"],["巳","火"],["卯","木"],["未","土"],["巳","火"],["卯","木"]],"chg":[["子","水"],["辰","土"],["申","金"],["午","火"],["子","水"],["子","水"]]},"100000":{"cn":"山 地 剥","th":"ซานตี้ปอ","palace":"เฉียน (乾)","el":"金 (ทอง)","note":"","shi":5,"ying":2,"main":[["未","土"],["巳","火"],["卯","木"],["戌","土"],["子","水"],["寅","木"]],"chg":[["子","水"],["辰","土"],["酉","金"],["酉","金"],["巳","火"],["酉","金"]]},"101000":{"cn":"火 地 晋","th":"โห่วตี้จิ้น","palace":"เฉียน (乾)","el":"金 (ทอง)","note":"กว้า วิญญาณเพนจร","shi":4,"ying":1,"main":[["未","土"],["巳","火"],["卯","木"],["酉","金"],["未","土"],["巳","火"]],"chg":[["子","水"],["辰","土"],["酉","金"],["戌","土"],["申","金"],["戌","土"]]},"101111":{"cn":"火 天 大 有","th":"โห่วเทียนต้าโหย่ว","palace":"เฉียน (乾)","el":"金 (ทอง)","note":"กว้า วิญญาณหวนกลับ","shi":3,"ying":6,"main":[["子","水"],["寅","木"],["辰","土"],["酉","金"],["未","土"],["巳","火"]],"chg":[["丑","土"],["丑","土"],["丑","土"],["戌","土"],["申","金"],["戌","土"]]},"011011":{"cn":"兑 为 泽","th":"ตุ้ยเหวยเจ๋อ","palace":"ตุ้ย (兑)","el":"金 (ทอง)","note":"กว้า 6 ชง","shi":6,"ying":3,"main":[["子","水"],["寅","木"],["辰","金"],["午","火"],["申","金"],["戌","土"]],"chg":[["寅","木"],["寅","木"],["辰","土"],["申","金"],["申","金"],["戌","土"]]},"011010":{"cn":"泽 水 困","th":"เจ๋อส่วยคุ่น","palace":"ตุ้ย (兑)","el":"金 (ทอง)","note":"กว้า 6 ฮะ","shi":1,"ying":4,"main":[["子","水"],["寅","木"],["辰","土"],["未","土"],["巳","火"],["卯","木"]],"chg":[["巳","火"],["巳","火"],["酉","金"],["申","金"],["申","金"],["戌","土"]]},"011000":{"cn":"泽 地 萃","th":"เจ๋อตี้ชุ่ย","palace":"ตุ้ย (兑)","el":"金 (ทอง)","note":"","shi":2,"ying":5,"main":[["卯","木"],["丑","土"],["亥","水"],["未","土"],["巳","火"],["卯","木"]],"chg":[["子","水"],["辰","土"],["申","金"],["申","金"],["申","金"],["戌","土"]]},"011100":{"cn":"泽 山 咸","th":"เจ๋อซานเสียน","palace":"ตุ้ย (兑)","el":"金 (ทอง)","note":"","shi":3,"ying":6,"main":[["子","水"],["寅","木"],["辰","土"],["未","土"],["巳","火"],["卯","木"]],"chg":[["卯","木"],["亥","水"],["卯","木"],["申","金"],["申","金"],["戌","土"]]},"010100":{"cn":"水 山 蹇","th":"สุ่ยซานเจี่ยน","palace":"ตุ้ย (兑)","el":"金 (ทอง)","note":"กว้า 6 ชง","shi":4,"ying":1,"main":[["子","水"],["寅","木"],["辰","土"],["午","火"],["申","金"],["戌","土"]],"chg":[["卯","木"],["亥","水"],["卯","木"],["亥","水"],["亥","水"],["卯","木"]]},"000100":{"cn":"地 山 谦","th":"ตี้ซานเชียน","palace":"ตุ้ย (兑)","el":"金 (ทอง)","note":"","shi":5,"ying":2,"main":[["子","水"],["寅","木"],["辰","土"],["酉","金"],["未","土"],["巳","火"]],"chg":[["卯","木"],["亥","水"],["卯","木"],["午","火"],["戌","土"],["寅","木"]]},"001100":{"cn":"雷 山 小 过","th":"เหลยซานเสี่ยวกว้อ","palace":"ตุ้ย (兑)","el":"金 (ทอง)","note":"กว้า วิญญาณเพนจร","shi":4,"ying":1,"main":[["子","水"],["寅","木"],["辰","土"],["戌","土"],["子","水"],["寅","木"]],"chg":[["卯","木"],["亥","水"],["卯","木"],["丑","土"],["酉","金"],["巳","火"]]},"001011":{"cn":"雷 泽 归 妹","th":"เหลยเจ๋อกุยเม่ย","palace":"ตุ้ย (兑)","el":"金 (ทอง)","note":"กว้า วิญญาณหวนกลับ","shi":3,"ying":6,"main":[["丑","土"],["亥","水"],["酉","金"],["戌","土"],["子","水"],["寅","木"]],"chg":[["寅","木"],["寅","木"],["辰","土"],["丑","土"],["酉","金"],["巳","火"]]},"101101":{"cn":"离 为 火","th":"หลีเหวยหั่ว","palace":"หลี (离)","el":"火 (ไฟ)","note":"กว้า 6 ชง","shi":6,"ying":3,"main":[["卯","木"],["丑","土"],["亥","水"],["酉","金"],["未","土"],["巳","火"]],"chg":[["辰","土"],["寅","木"],["辰","土"],["戌","土"],["申","金"],["戌","土"]]},"101100":{"cn":"火 山 旅","th":"หั่วซานหลวี","palace":"หลี (离)","el":"火 (ไฟ)","note":"กว้า 6 ฮะ","shi":1,"ying":4,"main":[["辰","土"],["午","火"],["申","金"],["酉","金"],["未","土"],["巳","火"]],"chg":[["卯","木"],["亥","水"],["卯","木"],["戌","土"],["申","金"],["戌","土"]]},"101110":{"cn":"火 风 鼎","th":"หั่วเฟิงติ่ง","palace":"หลี (离)","el":"火 (ไฟ)","note":"","shi":2,"ying":5,"main":[["丑","土"],["亥","水"],["酉","金"],["酉","金"],["未","土"],["巳","火"]],"chg":[["子","水"],["午","火"],["午","火"],["戌","土"],["申","金"],["戌","土"]]},"101010":{"cn":"火 水 未 济","th":"หั่วสุ่ยเว่ยจี้","palace":"หลี (离)","el":"火 (ไฟ)","note":"","shi":3,"ying":6,"main":[["寅","木"],["辰","土"],["午","火"],["酉","金"],["未","土"],["巳","火"]],"chg":[["巳","火"],["巳","火"],["酉","金"],["戌","土"],["申","金"],["戌","土"]]},"100010":{"cn":"山 水 蒙","th":"ซานสุ่ยเหมิง","palace":"หลี (离)","el":"火 (ไฟ)","note":"","shi":4,"ying":1,"main":[["寅","木"],["辰","土"],["午","火"],["戌","土"],["子","水"],["寅","木"]],"chg":[["巳","火"],["巳","火"],["酉","金"],["酉","金"],["巳","火"],["酉","金"]]},"110010":{"cn":"风 水 涣","th":"เฟิงสุ่ยฮ่วน","palace":"หลี (离)","el":"火 (ไฟ)","note":"","shi":5,"ying":2,"main":[["寅","木"],["辰","土"],["午","火"],["未","土"],["巳","火"],["卯","木"]],"chg":[["巳","火"],["巳","火"],["酉","金"],["午","火"],["子","水"],["子","水"]]},"111010":{"cn":"天 水 讼","th":"เทียนสุ่ยซ่ง","palace":"หลี (离)","el":"火 (ไฟ)","note":"กว้า วิญญาณเพนจร","shi":4,"ying":1,"main":[["寅","木"],["辰","土"],["午","火"],["午","火"],["申","金"],["戌","土"]],"chg":[["巳","火"],["巳","火"],["酉","金"],["未","土"],["未","土"],["未","土"]]},"111101":{"cn":"天 火 同 人","th":"เทียนหั่วถงเหริน","palace":"หลี (离)","el":"火 (ไฟ)","note":"กว้า วิญญาณหวนกลับ","shi":3,"ying":6,"main":[["卯","木"],["丑","土"],["亥","水"],["午","火"],["申","金"],["戌","土"]],"chg":[["辰","土"],["寅","木"],["辰","土"],["未","土"],["未","土"],["未","土"]]},"001001":{"cn":"震 为 雷","th":"เจิ้นเหวยเหลย","palace":"เจิ้น (震)","el":"木 (ไม้)","note":"กว้า 6 ชง","shi":6,"ying":3,"main":[["子","水"],["寅","木"],["辰","土"],["午","火"],["申","金"],["戌","土"]],"chg":[["未","土"],["卯","木"],["亥","水"],["丑","土"],["酉","金"],["巳","火"]]},"001000":{"cn":"雷 地 豫","th":"เหลยตี้วี่","palace":"เจิ้น (震)","el":"木 (ไม้)","note":"กว้า 6 ฮะ","shi":1,"ying":4,"main":[["未","土"],["巳","火"],["卯","木"],["午","火"],["申","金"],["戌","土"]],"chg":[["子","水"],["辰","土"],["酉","金"],["丑","土"],["酉","金"],["巳","火"]]},"001010":{"cn":"雷 水 解","th":"เหลยสุ่ยเจ่","palace":"เจิ้น (震)","el":"木 (ไม้)","note":"","shi":2,"ying":5,"main":[["寅","木"],["辰","土"],["午","火"],["午","火"],["申","金"],["戌","土"]],"chg":[["巳","火"],["巳","火"],["酉","金"],["丑","土"],["酉","金"],["巳","火"]]},"001110":{"cn":"雷 风 恒","th":"เหลยเฟิงเหิง","palace":"เจิ้น (震)","el":"木 (ไม้)","note":"","shi":3,"ying":6,"main":[["丑","土"],["亥","水"],["酉","金"],["午","火"],["申","金"],["戌","土"]],"chg":[["子","水"],["午","火"],["午","火"],["丑","土"],["酉","金"],["巳","火"]]},"000110":{"cn":"地 风 升","th":"ตี้เฟิงเซิง","palace":"เจิ้น (震)","el":"木 (ไม้)","note":"","shi":4,"ying":1,"main":[["丑","土"],["亥","水"],["酉","金"],["丑","土"],["亥","水"],["酉","金"]],"chg":[["子","水"],["午","火"],["午","火"],["午","火"],["戌","土"],["寅","木"]]},"010110":{"cn":"水 风 井","th":"สุ่ยเฟิงจิ่ง","palace":"เจิ้น (震)","el":"木 (ไม้)","note":"","shi":5,"ying":2,"main":[["丑","土"],["亥","水"],["酉","金"],["申","金"],["戌","土"],["子","水"]],"chg":[["子","水"],["午","火"],["午","火"],["亥","水"],["亥","水"],["卯","木"]]},"011110":{"cn":"泽 风 大 过","th":"เจ๋อเฟิงต้ากว้อ","palace":"เจิ้น (震)","el":"木 (ไม้)","note":"กว้า วิญญาณเพนจร","shi":4,"ying":1,"main":[["丑","土"],["亥","水"],["酉","金"],["亥","水"],["酉","金"],["未","土"]],"chg":[["子","水"],["午","火"],["午","火"],["申","金"],["申","金"],["戌","土"]]},"011001":{"cn":"泽 雷 随","th":"เจ๋อเหลยสุย","palace":"เจิ้น (震)","el":"木 (ไม้)","note":"กว้า วิญญาณหวนกลับ","shi":3,"ying":6,"main":[["子","水"],["寅","木"],["辰","土"],["亥","水"],["酉","金"],["未","土"]],"chg":[["未","土"],["卯","木"],["亥","水"],["申","金"],["申","金"],["戌","土"]]},"110110":{"cn":"巽 为 风","th":"ซวิ่นเหวยเฟิง","palace":"ซวิ่น (巽)","el":"木 (ไม้)","note":"กว้า 6 ชง","shi":6,"ying":3,"main":[["丑","土"],["亥","水"],["酉","金"],["未","土"],["巳","火"],["卯","木"]],"chg":[["子","水"],["午","火"],["午","火"],["午","火"],["子","水"],["子","水"]]},"110111":{"cn":"风 天 小 畜","th":"เฟิงเทียนเสี่วซวี่","palace":"ซวิ่น (巽)","el":"木 (ไม้)","note":"","shi":1,"ying":4,"main":[["子","水"],["寅","木"],["辰","土"],["未","土"],["巳","火"],["卯","木"]],"chg":[["丑","土"],["丑","土"],["丑","土"],["午","火"],["子","水"],["子","水"]]},"110101":{"cn":"风 火 家 人","th":"เฟิงหั่วเจียเหริน","palace":"ซวิ่น (巽)","el":"木 (ไม้)","note":"","shi":2,"ying":5,"main":[["卯","木"],["丑","土"],["亥","水"],["未","土"],["巳","火"],["卯","木"]],"chg":[["辰","土"],["寅","木"],["辰","土"],["午","火"],["子","水"],["子","水"]]},"110001":{"cn":"风 雷 益","th":"เฟิงเหลยอี้","palace":"ซวิ่น (巽)","el":"木 (ไม้)","note":"","shi":3,"ying":6,"main":[["子","水"],["寅","木"],["辰","土"],["未","土"],["巳","火"],["卯","木"]],"chg":[["未","土"],["卯","木"],["亥","水"],["午","火"],["子","水"],["子","水"]]},"111001":{"cn":"天 雷 无 妄","th":"เทีนนเหลยอู๋ว่าง","palace":"ซวิ่น (巽)","el":"木 (ไม้)","note":"กว้า 6 ชง","shi":4,"ying":1,"main":[["子","水"],["寅","木"],["辰","土"],["午","火"],["申","金"],["戌","土"]],"chg":[["未","土"],["卯","木"],["亥","水"],["未","土"],["未","土"],["未","土"]]},"101001":{"cn":"火 雷 噬 嗑","th":"หั่วเหลยซื่อเห้อ","palace":"ซวิ่น (巽)","el":"木 (ไม้)","note":"","shi":5,"ying":2,"main":[["子","水"],["寅","木"],["辰","土"],["酉","金"],["未","土"],["巳","火"]],"chg":[["未","土"],["卯","木"],["亥","水"],["戌","土"],["申","金"],["戌","土"]]},"100001":{"cn":"山 雷 颐","th":"ซานเหลยอี๋","palace":"ซวิ่น (巽)","el":"木 (ไม้)","note":"กว้า วิญญาณเพนจร","shi":4,"ying":1,"main":[["子","水"],["寅","木"],["辰","土"],["戌","土"],["子","水"],["寅","木"]],"chg":[["未","土"],["卯","木"],["亥","水"],["酉","金"],["巳","火"],["酉","金"]]},"100110":{"cn":"山 风 蛊","th":"ซานเฟิงกู่","palace":"ซวิ่น (巽)","el":"木 (ไม้)","note":"กว้า วิญญาณหวนกลับ","shi":3,"ying":6,"main":[["丑","土"],["亥","水"],["酉","金"],["戌","土"],["子","水"],["寅","木"]],"chg":[["子","水"],["午","火"],["午","火"],["酉","金"],["巳","火"],["酉","金"]]},"010010":{"cn":"坎 为 水","th":"ข่านเหวยสุ่ย","palace":"ข่าน (坎)","el":"水 (น้ำ)","note":"กว้า 6 ชง","shi":6,"ying":3,"main":[["寅","木"],["辰","土"],["午","火"],["申","金"],["戌","土"],["子","水"]],"chg":[["巳","火"],["巳","火"],["酉","金"],["亥","水"],["亥","水"],["卯","木"]]},"010011":{"cn":"水 泽 节","th":"สุ่ยเจ๋อเจ๋","palace":"ข่าน (坎)","el":"水 (น้ำ)","note":"กว้า 6 ฮะ","shi":1,"ying":4,"main":[["巳","火"],["卯","木"],["丑","土"],["申","金"],["戌","土"],["子","水"]],"chg":[["寅","木"],["寅","木"],["辰","土"],["亥","水"],["亥","水"],["卯","木"]]},"010001":{"cn":"水 雷 屯","th":"สุ่ยเหลยถุน","palace":"ข่าน (坎)","el":"水 (น้ำ)","note":"","shi":2,"ying":5,"main":[["子","水"],["寅","木"],["辰","土"],["申","金"],["戌","土"],["子","水"]],"chg":[["未","土"],["卯","木"],["亥","水"],["亥","水"],["亥","水"],["卯","木"]]},"010101":{"cn":"水 火 既 济","th":"สุ่ยหั่วจี้จี้","palace":"ข่าน (坎)","el":"水 (น้ำ)","note":"","shi":3,"ying":6,"main":[["卯","木"],["丑","土"],["亥","水"],["申","金"],["戌","土"],["子","水"]],"chg":[["辰","土"],["寅","木"],["辰","土"],["亥","水"],["亥","水"],["卯","木"]]},"011101":{"cn":"泽 火 革","th":"เจ๋อหั่วเก๋อ","palace":"ข่าน (坎)","el":"水 (น้ำ)","note":"","shi":4,"ying":1,"main":[["寅","木"],["丑","土"],["亥","水"],["亥","水"],["酉","金"],["未","土"]],"chg":[["辰","土"],["寅","木"],["辰","土"],["申","金"],["申","金"],["戌","土"]]},"001101":{"cn":"雷 火 丰","th":"เหลยหั่วเฟิง","palace":"ข่าน (坎)","el":"水 (น้ำ)","note":"","shi":5,"ying":2,"main":[["卯","木"],["丑","土"],["亥","水"],["午","火"],["申","金"],["戌","土"]],"chg":[["辰","土"],["寅","木"],["辰","土"],["丑","土"],["酉","金"],["巳","火"]]},"000101":{"cn":"地 火 明 夷","th":"ตี้หั่วหมิงอี๋","palace":"ข่าน (坎)","el":"水 (น้ำ)","note":"กว้า วิญญาณเพนจร","shi":4,"ying":1,"main":[["卯","木"],["丑","土"],["亥","水"],["丑","土"],["亥","水"],["酉","金"]],"chg":[["辰","土"],["寅","木"],["辰","土"],["午","火"],["戌","土"],["寅","木"]]},"000010":{"cn":"地 水 师","th":"ตี้สุ่ยซือ","palace":"ข่าน (坎)","el":"水 (น้ำ)","note":"กว้า วิญญาณหวนกลับ","shi":3,"ying":6,"main":[["寅","木"],["辰","土"],["午","火"],["丑","土"],["亥","水"],["酉","金"]],"chg":[["巳","火"],["巳","火"],["酉","金"],["午","火"],["戌","土"],["寅","木"]]},"100100":{"cn":"艮 为 山","th":"เกิ้นเหวยซาน","palace":"เกิ่น (艮)","el":"土 (ดิน)","note":"กว้า 6 ชง","shi":6,"ying":3,"main":[["辰","土"],["午","火"],["申","金"],["戌","土"],["子","水"],["寅","木"]],"chg":[["卯","木"],["亥","水"],["卯","木"],["酉","金"],["巳","火"],["酉","金"]]},"100101":{"cn":"山 火 贲","th":"ซานหั่วปี้","palace":"เกิ่น (艮)","el":"土 (ดิน)","note":"กว้า 6 ฮะ","shi":1,"ying":4,"main":[["卯","木"],["丑","土"],["亥","土"],["戌","土"],["子","水"],["寅","木"]],"chg":[["辰","土"],["寅","木"],["辰","土"],["酉","金"],["巳","火"],["酉","金"]]},"100111":{"cn":"山 天 大 畜","th":"ซานเทียนต้าซวี่","palace":"เกิ่น (艮)","el":"土 (ดิน)","note":"","shi":2,"ying":5,"main":[["子","水"],["寅","木"],["辰","土"],["戌","土"],["子","水"],["寅","木"]],"chg":[["丑","土"],["丑","土"],["丑","土"],["酉","金"],["巳","火"],["酉","金"]]},"100011":{"cn":"山 泽 损","th":"ซานเจ๋อสุ่น","palace":"เกิ่น (艮)","el":"土 (ดิน)","note":"","shi":3,"ying":6,"main":[["巳","火"],["卯","木"],["丑","土"],["戌","土"],["子","水"],["寅","木"]],"chg":[["寅","木"],["寅","木"],["辰","土"],["酉","金"],["巳","火"],["酉","金"]]},"101011":{"cn":"火 泽 睽","th":"หั่วเจ๋อขุย","palace":"เกิ่น (艮)","el":"土 (ดิน)","note":"","shi":4,"ying":1,"main":[["巳","火"],["卯","木"],["丑","土"],["酉","金"],["未","土"],["巳","火"]],"chg":[["寅","木"],["寅","木"],["辰","土"],["戌","土"],["申","金"],["戌","土"]]},"111011":{"cn":"天 泽 履","th":"เทียนเจ๋อหลุ่ย","palace":"เกิ่น (艮)","el":"土 (ดิน)","note":"","shi":5,"ying":2,"main":[["巳","火"],["卯","木"],["丑","土"],["午","火"],["申","金"],["戌","土"]],"chg":[["寅","木"],["寅","木"],["辰","土"],["未","土"],["未","土"],["未","土"]]},"110011":{"cn":"风 泽 中 孚","th":"เฟิงเจ๋อจงฝู","palace":"เกิ่น (艮)","el":"土 (ดิน)","note":"กว้า วิญญาณเพนจร","shi":4,"ying":1,"main":[["巳","火"],["卯","木"],["丑","土"],["未","土"],["巳","火"],["卯","木"]],"chg":[["寅","木"],["寅","木"],["辰","土"],["午","火"],["子","水"],["子","水"]]},"110100":{"cn":"风 山 渐","th":"เฟิงซานเจี้ยน","palace":"เกิ่น (艮)","el":"土 (ดิน)","note":"กว้า วิญญาณหวนกลับ","shi":3,"ying":6,"main":[["辰","土"],["午","火"],["申","金"],["未","土"],["巳","火"],["卯","木"]],"chg":[["卯","木"],["亥","水"],["卯","木"],["午","火"],["子","水"],["子","水"]]},"000000":{"cn":"坤 为 地","th":"คุนเหวยตี้","palace":"คุน (坤)","el":"土 (ดิน)","note":"กว้า 6 ชง","shi":6,"ying":3,"main":[["未","土"],["巳","火"],["卯","木"],["丑","土"],["亥","土"],["申","金"]],"chg":[["子","水"],["辰","土"],["酉","金"],["午","火"],["戌","土"],["寅","木"]]},"000001":{"cn":"地 雷 復","th":"ตี้เหลยฝู้","palace":"คุน (坤)","el":"土 (ดิน)","note":"กว้า 6 ฮะ","shi":1,"ying":4,"main":[["子","水"],["寅","木"],["辰","土"],["丑","土"],["亥","水"],["酉","金"]],"chg":[["未","土"],["卯","木"],["亥","水"],["午","火"],["戌","土"],["寅","木"]]},"000011":{"cn":"地 泽 临","th":"ตี้เจ๋อหลิน","palace":"คุน (坤)","el":"土 (ดิน)","note":"","shi":2,"ying":5,"main":[["巳","火"],["卯","木"],["丑","土"],["丑","土"],["亥","水"],["酉","金"]],"chg":[["寅","木"],["寅","木"],["辰","土"],["午","火"],["戌","土"],["寅","木"]]},"000111":{"cn":"地 天 泰","th":"ตี้เทียนไท่","palace":"คุน (坤)","el":"土 (ดิน)","note":"กว้า 6 ฮะ","shi":3,"ying":6,"main":[["子","水"],["寅","木"],["辰","土"],["丑","土"],["亥","水"],["酉","金"]],"chg":[["丑","土"],["丑","土"],["丑","土"],["午","火"],["戌","土"],["寅","木"]]},"001111":{"cn":"雷 天 大 壮","th":"เหลยเทียนต้าจ้ว","palace":"คุน (坤)","el":"土 (ดิน)","note":"กว้า 6 ชง","shi":4,"ying":1,"main":[["子","水"],["寅","木"],["辰","土"],["午","火"],["申","金"],["戌","土"]],"chg":[["丑","土"],["丑","土"],["丑","土"],["丑","土"],["酉","金"],["巳","火"]]},"011111":{"cn":"泽 天 夬","th":"เจ๋อเทียนไก้ว","palace":"คุน (坤)","el":"土 (ดิน)","note":"","shi":5,"ying":2,"main":[["子","水"],["寅","木"],["辰","土"],["亥","水"],["酉","金"],["未","土"]],"chg":[["丑","土"],["丑","土"],["丑","土"],["申","金"],["申","金"],["戌","土"]]},"010111":{"cn":"水 天 需","th":"สุ่ยเทียนซวี","palace":"คุน (坤)","el":"土 (ดิน)","note":"กว้า วิญญาณเพนจร","shi":4,"ying":1,"main":[["子","水"],["寅","木"],["辰","土"],["申","金"],["戌","土"],["子","水"]],"chg":[["丑","土"],["丑","土"],["丑","土"],["亥","水"],["亥","水"],["卯","木"]]},"010000":{"cn":"水 地 比","th":"สุ่ยตี้ปี่","palace":"คุน (坤)","el":"土 (ดิน)","note":"กว้า วิญญาณหวนกลับ","shi":3,"ying":6,"main":[["未","土"],["巳","火"],["卯","木"],["申","金"],["戌","土"],["子","水"]],"chg":[["子","水"],["辰","土"],["酉","金"],["亥","水"],["亥","水"],["卯","木"]]}};
+
+  const STEMS = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+  const BRANCHES = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+  const MONTH_BRANCHES = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"];
+  const ELEMENTS_ORDER = ["木", "火", "土", "金", "水"];
+  const SIX_RELATIONS = ["兄弟", "子孙", "妻财", "官鬼", "父母"];
+  const SIX_BEASTS = [
+    "青龙 (มังกรเขียว)",
+    "朱雀 (หงส์แดง)",
+    "勾陈 (เขาเดี่ยว)",
+    "螣蛇 (งูบิน)",
+    "白虎 (เสือขาว)",
+    "玄武 (เต่าดำ)"
+  ];
+
+  const CLASH_PAIRS = {
+    "子": "午", "午": "子",
+    "丑": "未", "未": "丑",
+    "寅": "申", "申": "寅",
+    "卯": "酉", "酉": "卯",
+    "辰": "戌", "戌": "辰",
+    "巳": "亥", "亥": "巳"
+  };
+
+  const SOLAR_TERM_C = [
+    5.4055, 3.87, 5.63, 4.81, 5.52, 5.678,
+    7.108, 7.5, 7.646, 8.318, 7.438, 7.18
+  ];
+
+  const ELEMENT_CLASS = {
+    "土": "el-earth",
+    "水": "el-water",
+    "火": "el-fire",
+    "木": "el-wood",
+    "金": "el-metal"
+  };
+
+  const CHAR_ELEMENT = {
+    "甲": "木", "乙": "木",
+    "丙": "火", "丁": "火",
+    "戊": "土", "己": "土",
+    "庚": "金", "辛": "金",
+    "壬": "水", "癸": "水",
+    "寅": "木", "卯": "木",
+    "巳": "火", "午": "火",
+    "辰": "土", "戌": "土", "丑": "土", "未": "土",
+    "申": "金", "酉": "金",
+    "亥": "水", "子": "水"
+  };
+
+  function colorizeChar(ch) {
+    const el = CHAR_ELEMENT[ch] || ch;
+    const cls = ELEMENT_CLASS[el] || "";
+    return cls ? '<span class="' + cls + '">' + ch + '</span>' : ch;
+  }
+
+  function colorizeText(str) {
+    if (!str) return "";
+    return str.split("").map(colorizeChar).join("");
+  }
+
+  function excelMod(n, d) {
+    return ((n % d) + d) % d;
+  }
+
+  function excelSerialDate(year, month, day) {
+    const utc = Date.UTC(year, month - 1, day);
+    const epoch = Date.UTC(1899, 11, 30);
+    return Math.round((utc - epoch) / 86400000);
+  }
+
+  function calcSixRelation(lineEl, palaceElFirstChar) {
+    const idxLine = ELEMENTS_ORDER.indexOf(lineEl.trim());
+    const idxPalace = ELEMENTS_ORDER.indexOf(palaceElFirstChar.trim());
+    if (idxLine === -1 || idxPalace === -1) return "";
+    const diff = excelMod(idxLine - idxPalace, 5);
+    return SIX_RELATIONS[diff];
+  }
+
+  function renderYaoHTML(isYang, isRed) {
+    const colorClass = isRed ? "yao-red" : "yao-dark";
+    if (isYang) {
+      return '<div class="yao-graphic"><div class="yao-yang ' + colorClass + '"></div></div>';
+    } else {
+      return '<div class="yao-graphic"><div class="yao-yin-part ' + colorClass + '"></div><div class="yao-yin-part ' + colorClass + '"></div></div>';
+    }
+  }
+
+  const selUpper = document.getElementById("selUpper");
+  const selLower = document.getElementById("selLower");
+  const selMoving = document.getElementById("selMoving");
+  const selDay = document.getElementById("selDay");
+  const selMonth = document.getElementById("selMonth");
+  const selYear = document.getElementById("selYear");
+
+  for (let i = 1; i <= 8; i++) {
+    const opt1 = document.createElement("option");
+    opt1.value = i;
+    opt1.textContent = TRIGRAMS[i].label;
+    selUpper.appendChild(opt1);
+
+    const opt2 = document.createElement("option");
+    opt2.value = i;
+    opt2.textContent = TRIGRAMS[i].label;
+    selLower.appendChild(opt2);
+
+    const opt3 = document.createElement("option");
+    opt3.value = i;
+    if (i <= 6) {
+      opt3.textContent = i + " (เส้นที่ " + i + ")";
+    } else if (i === 7) {
+      opt3.textContent = "7 (เส้นที่ 1)";
+    } else {
+      opt3.textContent = "8 (เส้นที่ 2)";
+    }
+    selMoving.appendChild(opt3);
+  }
+
+  const THAI_MONTHS = [
+    "1 (ม.ค.)", "2 (ก.พ.)", "3 (มี.ค.)", "4 (เม.ย.)",
+    "5 (พ.ค.)", "6 (มิ.ย.)", "7 (ก.ค.)", "8 (ส.ค.)",
+    "9 (ก.ย.)", "10 (ต.ค.)", "11 (พ.ย.)", "12 (ธ.ค.)"
+  ];
+
+  for (let m = 1; m <= 12; m++) {
+    const opt = document.createElement("option");
+    opt.value = m;
+    opt.textContent = THAI_MONTHS[m - 1];
+    selMonth.appendChild(opt);
+  }
+
+  for (let y = 2540; y <= 2600; y++) {
+    const opt = document.createElement("option");
+    opt.value = y;
+    opt.textContent = y;
+    selYear.appendChild(opt);
+  }
+
+  function updateDayOptions(preserveDay) {
+    const yAD = parseInt(selYear.value, 10) - 543;
+    const m = parseInt(selMonth.value, 10);
+    const maxDays = new Date(yAD, m, 0).getDate();
+    const currentDay = preserveDay || parseInt(selDay.value, 10) || 1;
+    selDay.innerHTML = "";
+    for (let d = 1; d <= maxDays; d++) {
+      const opt = document.createElement("option");
+      opt.value = d;
+      opt.textContent = d;
+      selDay.appendChild(opt);
+    }
+    selDay.value = Math.min(currentDay, maxDays);
+  }
+
+  selLower.value = "6";
+  selUpper.value = "4";
+  selMoving.value = "4";
+  selYear.value = "2569";
+  selMonth.value = "11";
+  updateDayOptions(16);
+
+  function calculateIching() {
+    const uVal = parseInt(selUpper.value, 10);
+    const lVal = parseInt(selLower.value, 10);
+    const mVal = parseInt(selMoving.value, 10);
+
+    const upperCode = TRIGRAMS[uVal].code;
+    const lowerCode = TRIGRAMS[lVal].code;
+    const code6 = upperCode + lowerCode;
+
+    const hex = HEXAGRAMS[code6];
+    if (!hex) return;
+
+    document.getElementById("outGuaCn").textContent = hex.cn;
+    document.getElementById("outGuaTh").textContent = hex.th;
+    document.getElementById("outGuaNote").textContent = hex.note || "";
+    document.getElementById("outPalace").textContent = hex.palace;
+    const outElNode = document.getElementById("outElement");
+    outElNode.textContent = hex.el;
+    outElNode.className = "gua-el " + (ELEMENT_CLASS[hex.el.charAt(0)] || "");
+
+    const palaceElChar = hex.el.charAt(0);
+
+    const day = parseInt(selDay.value, 10);
+    const month = parseInt(selMonth.value, 10);
+    const yearBE = parseInt(selYear.value, 10);
+    const yearAD = yearBE - 543;
+
+    const j15 = excelSerialDate(yearAD, month, day);
+
+    const liChunDay = Math.floor((yearAD - 2000) * 0.2422 + 3.87) - Math.floor((yearAD - 2000) / 4);
+    const liChunSerial = excelSerialDate(yearAD, 2, liChunDay);
+    const adjYear = yearAD - (j15 < liChunSerial ? 1 : 0);
+
+    const termDay = Math.floor((yearAD - 2000) * 0.2422 + SOLAR_TERM_C[month - 1]) - Math.floor((yearAD - 2000) / 4);
+    const monthOffset = excelMod(month - 2 - (day < termDay ? 1 : 0), 12);
+
+    const yearStemBase = excelMod(adjYear - 4, 10);
+    const monthStemIdx = excelMod((excelMod(yearStemBase, 5) * 2 + 2) + monthOffset, 10);
+    const monthStem = STEMS[monthStemIdx];
+    const monthBranch = MONTH_BRANCHES[monthOffset];
+
+    const dayStemIdx = excelMod(j15 - 2, 10);
+    const dayStem = STEMS[dayStemIdx];
+
+    const dayBranchIdx = excelMod(j15 + 8, 12);
+    const dayBranch = BRANCHES[dayBranchIdx];
+
+    const kwStartIdx = excelMod(dayBranchIdx - dayStemIdx + 10, 12);
+    const kongWang = BRANCHES[kwStartIdx] + BRANCHES[(kwStartIdx + 1) % 12];
+
+    document.getElementById("outMonthPillar").innerHTML = colorizeText(monthStem + monthBranch);
+    document.getElementById("outDayPillar").innerHTML = colorizeText(dayStem + dayBranch);
+    document.getElementById("outKongWang").innerHTML = colorizeText(kongWang);
+
+    const beastStartMap = [0, 0, 1, 1, 2, 3, 4, 4, 5, 5];
+    const startBeastIdx = beastStartMap[dayStemIdx];
+
+    const tbody = document.getElementById("hexTableBody");
+    tbody.innerHTML = "";
+
+    for (let lineNum = 6; lineNum >= 1; lineNum--) {
+      const arrIdx = lineNum - 1;
+      const strIdx = 6 - lineNum;
+
+      const mainBranch = hex.main[arrIdx][0];
+      const mainEl = hex.main[arrIdx][1];
+      const mainRel = calcSixRelation(mainEl, palaceElChar);
+
+      const isHiddenMove = (CLASH_PAIRS[mainBranch] === dayBranch);
+      const hiddenText = isHiddenMove ? "แอบขยับ" : "";
+
+      let isExplicitMove = (mVal === lineNum);
+      if (lineNum === 1 && mVal === 7) isExplicitMove = true;
+      if (lineNum === 2 && mVal === 8) isExplicitMove = true;
+
+      const showChange = isExplicitMove || isHiddenMove;
+
+      const mainBit = parseInt(code6.charAt(strIdx), 10);
+      const isMainYang = (mainBit === 1);
+
+      let chgRel = "";
+      let chgBranch = "";
+      let chgEl = "";
+      let chgYaoHTML = "";
+
+      if (showChange) {
+        chgBranch = hex.chg[arrIdx][0];
+        chgEl = hex.chg[arrIdx][1];
+        chgRel = calcSixRelation(chgEl, palaceElChar);
+        const chgBit = 1 - mainBit;
+        const isChgYang = (chgBit === 1);
+        chgYaoHTML = renderYaoHTML(isChgYang, isChgYang);
+      }
+
+      const mainYaoHTML = renderYaoHTML(isMainYang, isMainYang);
+
+      let syHTML = "";
+      if (hex.shi === lineNum) {
+        syHTML = '<span class="badge-sy badge-shi">世</span>';
+      } else if (hex.ying === lineNum) {
+        syHTML = '<span class="badge-sy badge-ying">应</span>';
+      }
+
+      const beastText = SIX_BEASTS[(startBeastIdx + arrIdx) % 6];
+      const chgCls = ELEMENT_CLASS[chgEl] || "";
+      const mainCls = ELEMENT_CLASS[mainEl] || "";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td class="col-hidden">' + hiddenText + '</td>' +
+        '<td class="col-pos">' + lineNum + '</td>' +
+        '<td class="col-rel">' + chgRel + '</td>' +
+        '<td class="col-branch ' + chgCls + '">' + chgBranch + '</td>' +
+        '<td class="col-el ' + chgCls + '">' + chgEl + '</td>' +
+        '<td class="col-yao">' + chgYaoHTML + '</td>' +
+        '<td class="col-rel">' + mainRel + '</td>' +
+        '<td class="col-branch ' + mainCls + '">' + mainBranch + '</td>' +
+        '<td class="col-el ' + mainCls + '">' + mainEl + '</td>' +
+        '<td class="col-yao">' + mainYaoHTML + '</td>' +
+        '<td class="col-shiying">' + syHTML + '</td>' +
+        '<td class="col-beast">' + beastText + '</td>';
+      tbody.appendChild(tr);
+    }
+  }
+
+  selUpper.addEventListener("change", calculateIching);
+  selLower.addEventListener("change", calculateIching);
+  selMoving.addEventListener("change", calculateIching);
+  selDay.addEventListener("change", calculateIching);
+  selMonth.addEventListener("change", function() {
+    updateDayOptions();
+    calculateIching();
+  });
+  selYear.addEventListener("change", function() {
+    updateDayOptions();
+    calculateIching();
+  });
+
+  document.getElementById("btnToday").addEventListener("click", function() {
+    const now = new Date();
+    selYear.value = String(now.getFullYear() + 543);
+    selMonth.value = String(now.getMonth() + 1);
+    updateDayOptions(now.getDate());
+    calculateIching();
+  });
+
+  calculateIching();
+
+  /* =========================================================
+     PART B: XUAN KONG FLYING STAR (ดาวเหิน 9 ยุค) LOGIC
+     ========================================================= */
+  const MOUNTAINS_24 = [
+    { ch: "子", dirIdx: 0, dragon: "天" },
+    { ch: "癸", dirIdx: 0, dragon: "人" },
+    { ch: "丑", dirIdx: 1, dragon: "地" },
+    { ch: "艮", dirIdx: 1, dragon: "天" },
+    { ch: "寅", dirIdx: 1, dragon: "人" },
+    { ch: "甲", dirIdx: 2, dragon: "地" },
+    { ch: "卯", dirIdx: 2, dragon: "天" },
+    { ch: "乙", dirIdx: 2, dragon: "人" },
+    { ch: "辰", dirIdx: 3, dragon: "地" },
+    { ch: "巽", dirIdx: 3, dragon: "天" },
+    { ch: "巳", dirIdx: 3, dragon: "人" },
+    { ch: "丙", dirIdx: 4, dragon: "地" },
+    { ch: "午", dirIdx: 4, dragon: "天" },
+    { ch: "丁", dirIdx: 4, dragon: "人" },
+    { ch: "未", dirIdx: 5, dragon: "地" },
+    { ch: "坤", dirIdx: 5, dragon: "天" },
+    { ch: "申", dirIdx: 5, dragon: "人" },
+    { ch: "庚", dirIdx: 6, dragon: "地" },
+    { ch: "酉", dirIdx: 6, dragon: "天" },
+    { ch: "辛", dirIdx: 6, dragon: "人" },
+    { ch: "戌", dirIdx: 7, dragon: "地" },
+    { ch: "乾", dirIdx: 7, dragon: "天" },
+    { ch: "亥", dirIdx: 7, dragon: "人" },
+    { ch: "壬", dirIdx: 0, dragon: "地" }
+  ];
+
+  // 8 Sectors ordered clockwise starting from N (index 0..7)
+  // Matches Excel CHOOSE(INT(MOD(MOD(deg,360)+22.5,360)/45)+1, H24, D24, D21, D18, H18, L18, L21, L24)
+  const SECTORS_8 = [
+    { code: "N",  th: "ทิศเหนือ",          range: "337.5°–22.5°",  gridPos: 7 }, // H24
+    { code: "NE", th: "ทิศตะวันออกเฉียงเหนือ", range: "22.5°–67.5°",   gridPos: 6 }, // D24
+    { code: "E",  th: "ทิศตะวันออก",        range: "67.5°–112.5°",  gridPos: 3 }, // D21
+    { code: "SE", th: "ทิศตะวันออกเฉียงใต้", range: "112.5°–157.5°", gridPos: 0 }, // D18
+    { code: "S",  th: "ทิศใต้",            range: "157.5°–202.5°", gridPos: 1 }, // H18
+    { code: "SW", th: "ทิศตะวันตกเฉียงใต้",  range: "202.5°–247.5°", gridPos: 2 }, // L18
+    { code: "W",  th: "ทิศตะวันตก",         range: "247.5°–292.5°", gridPos: 5 }, // L21
+    { code: "NW", th: "ทิศตะวันตกเฉียงเหนือ", range: "292.5°–337.5°", gridPos: 8 }  // L24
+  ];
+
+  // Lo Shu Flying Path order of gridPos (0..8 where 4 is Center):
+  // Center(4) -> NW(8) -> W(5) -> NE(6) -> S(1) -> N(7) -> SW(2) -> E(3) -> SE(0)
+  const LUOSHU_PATH = [4, 8, 5, 6, 1, 7, 2, 3, 0];
+
+  const NINE_STARS_INFO = [
+    { num: 1, name: "ดาว 1 ทัมลัง (一白)", el: "ธาตุน้ำ", p9: "มงคล (ดาวอนาคต)", good: true,  desc: "โชคลาภ การเดินทาง สติปัญญา ชื่อเสียง ความรักและเสน่ห์เมตตา" },
+    { num: 2, name: "ดาว 2 กือมึ้ง (二黑)", el: "ธาตุดิน", p9: "มงคล (ดาวอนาคต)", good: true,  desc: "ในยุค 9 เริ่มฟื้นกำลัง เด่นด้านอสังหาริมทรัพย์ ที่ดิน ความมั่งคั่งระยะยาว" },
+    { num: 3, name: "ดาว 3 ลกชุ้ง (三碧)", el: "ธาตุไม้", p9: "วิบัติ/ขัดแย้ง",   good: false, desc: "การทะเลาะวิวาท คดีความ อารมณ์ฉุนเฉียว อุบัติเหตุและการแข่งขัน" },
+    { num: 4, name: "ดาว 4 บุ่งเข็ก (四绿)", el: "ธาตุไม้", p9: "วิบัติ/เสื่อม",     good: false, desc: "ในยุค 9 ถอยกำลัง หากเสียสมดุลอาจเกิดเรื่องอื้อฉาว ความลุ่มหลง หรือปัญหาเอกสาร" },
+    { num: 5, name: "ดาว 5 เลี้ยงเจ็ง (五黄)", el: "ธาตุดิน", p9: "วิบัติร้ายแรง",    good: false, desc: "ดาวเบญจภูต อุปสรรคใหญ่ โรคภัยร้ายแรง การสูญเสีย ควรเน้นความสงบนิ่ง" },
+    { num: 6, name: "ดาว 6 บู๊เข็ก (六白)", el: "ธาตุทอง", p9: "เสื่อมกำลัง",      good: false, desc: "อำนาจเก่า ระเบียบวินัย การโยกย้าย หากกระตุ้นผิดอาจเกิดความเครียดและโดดเดี่ยว" },
+    { num: 7, name: "ดาว 7 ผั่วกุง (七赤)", el: "ธาตุทอง", p9: "วิบัติ/สูญเสีย",   good: false, desc: "โจรกรรม การหักหลัง เสียทรัพย์ คำพูดให้โทษ และปัญหาทางเดินหายใจ/ช่องปาก" },
+    { num: 8, name: "ดาว 8 จ้อหู (八白)", el: "ธาตุดิน", p9: "ถอยยุค",         good: false, desc: "อดีตดาวรุ่งยุค 8 ในยุค 9 พลังชะลอตัว ยังพอใช้ได้แต่ต้องออกแรงเหนื่อยมากขึ้น" },
+    { num: 9, name: "ดาว 9 อิ้วเพียก (九紫)", el: "ธาตุไฟ", p9: "รุ่งเรืองสูงสุด",  good: true,  desc: "ดาวประจำยุค 9 มหาโชคลาภ ความสำเร็จรวดเร็ว ชื่อเสียง ธุรกิจออนไลน์และเทคโนโลยี" }
+  ];
+
+  function normDeg(d) {
+    let v = parseFloat(d);
+    if (isNaN(v)) v = 0;
+    return ((v % 360) + 360) % 360;
+  }
+
+  function getMountainInfo(deg) {
+    const d = normDeg(deg);
+    const idx = Math.floor(normDeg(d + 7.5) / 15);
+    return MOUNTAINS_24[idx];
+  }
+
+  function getSectorIdx(deg) {
+    const d = normDeg(deg);
+    return Math.floor(normDeg(d + 22.5) / 45);
+  }
+
+  function getDragonDisplay(dragonCode) {
+    if (dragonCode === "天") {
+      return { th: "มังกรฟ้า (天)", cls: "dragon-sky" };
+    } else if (dragonCode === "地") {
+      return { th: "มังกรดิน (地)", cls: "dragon-earth" };
+    }
+    return { th: "มังกรคน (人)", cls: "dragon-human" };
+  }
+
+  function getFlyStep(starNum, dragonCode) {
+    const isOdd = (starNum % 2 === 1);
+    if (dragonCode === "地") {
+      return isOdd ? 1 : -1;
+    } else {
+      return isOdd ? -1 : 1;
+    }
+  }
+
+  function flyStarsFromCenter(centerStar, step) {
+    const gridStars = new Array(9);
+    for (let i = 0; i < 9; i++) {
+      const pos = LUOSHU_PATH[i];
+      const val = excelMod(centerStar - 1 + i * step, 9) + 1;
+      gridStars[pos] = val;
+    }
+    return gridStars;
+  }
+
+  const fsPeriod = document.getElementById("fsPeriod");
+  const fsSittingDeg = document.getElementById("fsSittingDeg");
+  const fsFacingDeg = document.getElementById("fsFacingDeg");
+  const fsRoadDeg = document.getElementById("fsRoadDeg");
+  const fsRoadSlider = document.getElementById("fsRoadSlider");
+
+  function renderStarsRef() {
+    const container = document.getElementById("fsStarsRefGrid");
+    container.innerHTML = NINE_STARS_INFO.map(function(s) {
+      return '<div class="star-ref-card ' + (s.good ? 'good-p9' : '') + '">' +
+        '<div class="star-ref-head">' +
+          '<span>' + s.name + ' (' + s.el + ')</span>' +
+          '<span class="star-badge-p9 ' + (s.good ? 'badge-good' : 'badge-bad') + '">' + s.p9 + '</span>' +
+        '</div>' +
+        '<div>' + s.desc + '</div>' +
+      '</div>';
+    }).join("");
+  }
+
+  function calculateFlyingStar() {
+    const period = parseInt(fsPeriod.value, 10) || 9;
+    const sitDeg = normDeg(fsSittingDeg.value);
+    const facDeg = normDeg(sitDeg + 180);
+
+    // 1. Boundary check (distToBoundary <= 1.5)
+    const distToBoundary = Math.abs(excelMod(excelMod(sitDeg - 352.5, 45) + 22.5, 45) - 22.5);
+    const statusEl = document.getElementById("fsBoundaryStatus");
+    if (distToBoundary <= 1.5) {
+      statusEl.textContent = "🔥 ตกหลุมไฟ (รอยต่อ ฟ้า-ดิน)";
+      statusEl.className = "fs-status-badge fs-status-fire";
+    } else {
+      statusEl.textContent = "✅ ปกติ";
+      statusEl.className = "fs-status-badge fs-status-ok";
+    }
+
+    // 2. Sitting & Facing Mountains & Dragon
+    const sitMtn = getMountainInfo(sitDeg);
+    const sitSecIdx = getSectorIdx(sitDeg);
+    const facSecIdx = getSectorIdx(facDeg);
+    const dragonCode = sitMtn.dragon;
+    const dragonInfo = getDragonDisplay(dragonCode);
+
+    const sitBox = document.getElementById("fsSittingDragonBox");
+    sitBox.className = "dragon-box " + dragonInfo.cls;
+    document.getElementById("fsDragonTypeLine").textContent = "ตำแหน่งมังกร (元龙): " + dragonInfo.th;
+    document.getElementById("fsSittingSummaryLine").textContent =
+      "หลังพิง" + SECTORS_8[sitSecIdx].th + " (" + sitMtn.ch + ") • " + dragonInfo.th;
+
+    // 3. Base Period Chart
+    const baseStars = flyStarsFromCenter(period, 1);
+
+    // 4. Mountain & Water Center Stars
+    const sitGridPos = SECTORS_8[sitSecIdx].gridPos;
+    const facGridPos = SECTORS_8[facSecIdx].gridPos;
+    const mtnCenterStar = baseStars[sitGridPos];
+    const watCenterStar = baseStars[facGridPos];
+
+    // 5. Flying Steps (with Star 5 rule)
+    let mtnStep, watStep;
+    if (mtnCenterStar === 5 && watCenterStar === 5) {
+      mtnStep = getFlyStep(5, dragonCode);
+      watStep = mtnStep;
+    } else if (mtnCenterStar === 5) {
+      watStep = getFlyStep(watCenterStar, dragonCode);
+      mtnStep = watStep;
+    } else if (watCenterStar === 5) {
+      mtnStep = getFlyStep(mtnCenterStar, dragonCode);
+      watStep = mtnStep;
+    } else {
+      mtnStep = getFlyStep(mtnCenterStar, dragonCode);
+      watStep = getFlyStep(watCenterStar, dragonCode);
+    }
+
+    const mtnStars = flyStarsFromCenter(mtnCenterStar, mtnStep);
+    const watStars = flyStarsFromCenter(watCenterStar, watStep);
+
+    // 6. Road Direction Analysis (Section 2)
+    const roadDeg = normDeg(fsRoadDeg.value);
+    const roadMtn = getMountainInfo(roadDeg);
+    const roadSec = SECTORS_8[getSectorIdx(roadDeg)];
+    const roadDragonInfo = getDragonDisplay(roadMtn.dragon);
+
+    const roadBox = document.getElementById("fsRoadDragonBox");
+    roadBox.className = "dragon-box " + roadDragonInfo.cls;
+    document.getElementById("fsRoadDirLine").textContent =
+      "ทิศถนน: " + roadSec.th + " (" + roadSec.code + ") • ขุนเขา " + roadMtn.ch;
+    document.getElementById("fsRoadDragonLine").textContent =
+      "มังกรถนน: " + roadDragonInfo.th;
+
+    const matchEl = document.getElementById("fsRoadMatchLine");
+    if (roadMtn.dragon === dragonCode) {
+      matchEl.textContent = "✅ มังกรเดียวกับหลังพิง (ส่งเสริม/บริสุทธิ์)";
+    } else {
+      matchEl.textContent = "⚠️ ต่างมังกรกับหลังพิง (" + dragonInfo.th + " vs " + roadDragonInfo.th + ")";
+    }
+
+    // 7. Render 3x3 Lo Shu Grid (0..8)
+    const gridEl = document.getElementById("fsGrid");
+    gridEl.innerHTML = "";
+
+    const CELL_META = [
+      { code: "SE",     th: "ตะวันออกเฉียงใต้", range: "112.5°–157.5°" }, // 0
+      { code: "S",      th: "ใต้",            range: "157.5°–202.5°" }, // 1
+      { code: "SW",     th: "ตะวันตกเฉียงใต้",  range: "202.5°–247.5°" }, // 2
+      { code: "E",      th: "ตะวันออก",        range: "67.5°–112.5°" },  // 3
+      { code: "CENTER", th: "กลางบ้าน",       range: "จุดศูนย์กลาง" },   // 4
+      { code: "W",      th: "ตะวันตก",         range: "247.5°–292.5°" }, // 5
+      { code: "NE",     th: "ตะวันออกเฉียงเหนือ", range: "22.5°–67.5°" },   // 6
+      { code: "N",      th: "เหนือ",           range: "337.5°–22.5°" },  // 7
+      { code: "NW",     th: "ตะวันตกเฉียงเหนือ", range: "292.5°–337.5°" }  // 8
+    ];
+
+    const AUSPICIOUS = [9, 1, 2];
+
+    for (let pos = 0; pos < 9; pos++) {
+      const wStar = watStars[pos];
+      const mStar = mtnStars[pos];
+      const bStar = baseStars[pos];
+      const meta = CELL_META[pos];
+
+      const isSit = (pos === sitGridPos);
+      const isFac = (pos === facGridPos);
+
+      let cellCls = "fs-cell";
+      if (isSit) cellCls += " is-sitting";
+      else if (isFac) cellCls += " is-facing";
+
+      let roleHTML = "";
+      if (isSit) {
+        roleHTML = '<div class="fs-role-tag role-sitting">หลังพิง 山</div>';
+      } else if (isFac) {
+        roleHTML = '<div class="fs-role-tag role-facing">หน้าหัน 向</div>';
+      }
+
+      const wAusp = AUSPICIOUS.includes(wStar) ? " star-auspicious" : "";
+      const mAusp = AUSPICIOUS.includes(mStar) ? " star-auspicious" : "";
+
+      const cell = document.createElement("div");
+      cell.className = cellCls;
+      cell.innerHTML =
+        '<div class="fs-stars-top">' +
+          '<span class="fs-star-num star-water' + wAusp + '">' + wStar + '</span>' +
+          '<span class="fs-star-num star-mountain' + mAusp + '">' + mStar + '</span>' +
+        '</div>' +
+        '<div class="fs-star-base">' + bStar + '</div>' +
+        roleHTML +
+        '<div class="fs-dir-footer">' +
+          '<div><span class="fs-dir-code">' + meta.code + '</span> ' + meta.th + '</div>' +
+          '<div>' + meta.range + '</div>' +
+        '</div>';
+      gridEl.appendChild(cell);
+    }
+  }
+
+  fsPeriod.addEventListener("change", calculateFlyingStar);
+
+  fsSittingDeg.addEventListener("input", function() {
+    const sit = normDeg(fsSittingDeg.value);
+    fsFacingDeg.value = normDeg(sit + 180);
+    calculateFlyingStar();
+  });
+
+  fsFacingDeg.addEventListener("input", function() {
+    const fac = normDeg(fsFacingDeg.value);
+    fsSittingDeg.value = normDeg(fac + 180);
+    calculateFlyingStar();
+  });
+
+  fsRoadDeg.addEventListener("input", function() {
+    const r = normDeg(fsRoadDeg.value);
+    fsRoadSlider.value = r;
+    calculateFlyingStar();
+  });
+
+  fsRoadSlider.addEventListener("input", function() {
+    fsRoadDeg.value = fsRoadSlider.value;
+    calculateFlyingStar();
+  });
+
+  document.getElementById("btnFsPdf").addEventListener("click", function() {
+    const origTitle = document.title;
+    document.title = "ดาวเหินยุค" + fsPeriod.value + "_หลังพิง" + fsSittingDeg.value + "องศา";
+    window.print();
+    document.title = origTitle;
+  });
+
+  renderStarsRef();
+  calculateFlyingStar();
+})();
+</script>
+</body>
+</html>
